@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 本映射⽂件对应GoodsDao接⼝ -->
+<mapper namespace="org.hbkj.springbootmybatis.GoodsDao">
+    <!-- 对应GoodsDao中的insert⽅法 -->
+    <insert id="insert" parameterType="org.hbkj.springbootmybatis.GoodsDo">
+        insert into lgoods (name,price,count) values (#{name},#{price},#{count})
+    </insert>
+    <!-- 对应GoodsDao中的delete⽅法 -->
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from lgoods where id=#{id}
+    </delete>
+    <!-- 对应GoodsDao中的update⽅法 -->
+    <update id="update" parameterType="org.hbkj.springbootmybatis.GoodsDo">
+        update lgoods set name=#{name},price=#{price},count=#{count} where id=#{id}
+    </update>
+    <!-- 对应GoodsDao中的selectOne⽅法 -->
+    <select id="selectOne" resultMap="resultMapBase" parameterType="java.lang.Long">
+        select <include refid="sqlBase" /> from lgoods where id = #{id}
+    </select>
+    <!-- 对应GoodsDao中的selectAll⽅法 -->
+    <select id="selectAll" resultMap="resultMapBase">
+        select <include refid="sqlBase" /> from lgoods
+    </select>
+    <!-- 可复⽤的sql模板 -->
+    <sql id="sqlBase">
+        id,name,price,count
+    </sql>
+    <!-- 保存SQL语句查询结果与实体类属性的映射 -->
+    <resultMap id="resultMapBase" type="org.hbkj.springbootmybatis.GoodsDo">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="price" property="price" />
+        <result column="count" property="count" />
+    </resultMap>
+
+    <update id="updateStock" parameterType="map">
+        UPDATE lgoods SET count = count - #{quantity} WHERE id = #{id}
+    </update>
+
+    <!-- 添加获取库存为 0 的商品列表的方法 -->
+    <select id="getLowGoods" resultMap="resultMapBase">
+        SELECT * FROM lgoods WHERE count = 0
+    </select>
+
+</mapper>

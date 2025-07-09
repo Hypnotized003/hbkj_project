@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.hbkj.springbootmybatis.UserDao">
+
+    <!-- 对应 UserDao 中的 insert 方法 -->
+    <insert id="insert" parameterType="org.hbkj.springbootmybatis.UserDo">
+        insert into luser (name, password, role) values (#{name}, #{password}, #{role})
+    </insert>
+
+    <!-- 对应 UserDao 中的 delete 方法 -->
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from luser where id = #{id}
+    </delete>
+
+    <!-- 对应 UserDao 中的 update 方法 -->
+    <update id="update" parameterType="org.hbkj.springbootmybatis.UserDo">
+        update luser set name=#{name},password=#{password},role=#{role} where id=#{id}
+    </update>
+
+    <!-- 对应 UserDao 中的 selectAll 方法 -->
+    <select id="selectAll" resultType="org.hbkj.springbootmybatis.UserDo">
+        select id, name, password, role from luser
+    </select>
+
+    <!-- 可复⽤的sql模板 -->
+    <sql id="sqlBase1">
+        id,name,password,role
+    </sql>
+    <!-- 保存SQL语句查询结果与实体类属性的映射 -->
+    <resultMap id="resultMapBase1" type="org.hbkj.springbootmybatis.UserDo">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="password" property="password" />
+        <result column="role" property="role" />
+    </resultMap>
+
+</mapper>
